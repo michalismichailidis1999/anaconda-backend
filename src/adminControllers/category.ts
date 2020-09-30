@@ -38,7 +38,7 @@ export const create = (req: Request, res: Response) => {
 
           res.status(201).json({
             message: `Category ${name} has been created`,
-            category: result[0]
+            category: result[0],
           });
         });
       });
@@ -57,7 +57,7 @@ export const remove = (req: Request, res: Response) => {
       if (err) throw err;
 
       res.status(200).json({
-        message: `Category ${req.category.name} has been deleted successfully`
+        message: `Category ${req.category.name} has been deleted successfully`,
       });
     });
   } catch (err) {
