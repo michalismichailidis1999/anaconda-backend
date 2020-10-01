@@ -9,14 +9,15 @@ import {
   lockAdminArea,
   getAdminAreaCurrentStatus,
   deleteAdmin,
-  getTotalUsersNumber
+  getTotalUsersNumber,
+  getUsers,
 } from "../adminControllers/user";
 import { check } from "express-validator";
 import {
   userById,
   requireSignIn,
   isAuthenticated,
-  isAdmin
+  isAdmin,
 } from "../middlewares/user";
 
 const router = Router();
@@ -26,7 +27,7 @@ router.post(
   [
     check("email", "Email is required").notEmpty(),
     check("email", "Please enter a valid email").isEmail(),
-    check("password", "Password is required").notEmpty()
+    check("password", "Password is required").notEmpty(),
   ],
   adminLogin
 );
@@ -36,7 +37,7 @@ router.post(
   [
     check("email", "Email is required").notEmpty(),
     check("email", "Please enter a valid email").isEmail(),
-    check("password", "Password is required").notEmpty()
+    check("password", "Password is required").notEmpty(),
   ],
   adminExtraSecurity
 );
@@ -49,8 +50,8 @@ router.put(
   [
     check("password", "Password is required").notEmpty(),
     check("password", "Password must be at least 8 characters").isLength({
-      min: 8
-    })
+      min: 8,
+    }),
   ],
   updateAdminExtraPassword
 );
@@ -91,13 +92,13 @@ router.post(
     check("email", "Please enter a valid email").isEmail(),
     check("password", "Password is required").notEmpty(),
     check("password", "Password must be at least 8 characters").isLength({
-      min: 8
+      min: 8,
     }),
     check("extraPassword", "Extra password is required").notEmpty(),
     check(
       "extraPassword",
       "Extra password must be at least 8 characters"
-    ).isLength({ min: 8 })
+    ).isLength({ min: 8 }),
   ],
   createAdmin
 );
@@ -124,6 +125,14 @@ router.get(
   isAuthenticated,
   isAdmin,
   getTotalUsersNumber
+);
+
+router.get(
+  "/admin/users/:userId",
+  requireSignIn,
+  isAuthenticated,
+  isAdmin,
+  getUsers
 );
 
 router.param("userId", userById);

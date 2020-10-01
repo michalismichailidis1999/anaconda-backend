@@ -58,9 +58,9 @@ export const adminLogin = (req: Request, res: Response) => {
               id: user.id,
               first_name: user.first_name,
               last_name: user.last_name,
-              email: user.email
+              email: user.email,
             },
-            token
+            token,
           });
         });
       });
@@ -113,7 +113,7 @@ export const adminExtraSecurity = (req: Request, res: Response) => {
 
             let newResult = {
               is_locked: result[0].is_locked,
-              remaining_tries: parseInt(result[0].remaining_tries) - 1
+              remaining_tries: parseInt(result[0].remaining_tries) - 1,
             };
 
             if (newResult.remaining_tries === 0) {
@@ -318,6 +318,22 @@ export const getTotalUsersNumber = (req: Request, res: Response) => {
       if (err) throw err;
 
       res.json(result[0]);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const getUsers = (req: Request, res: Response) => {
+  try {
+    let query = `SELECT u.first_name, u.last_name, u.email, COUNT(o.id) as total_orders, SUM(o.total_price + o.extra_price) as total_money_spend
+    FROM users as u INNER JOIN orders as o ON u.email=o.customer GROUP BY u.email`;
+
+    db.query(query, (err: MysqlError, result) => {
+      if (err) throw err;
+
+      res.json(result);
     });
   } catch (err) {
     console.log(err);
