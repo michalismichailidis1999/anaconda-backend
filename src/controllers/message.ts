@@ -3,9 +3,6 @@ import db from "../config/db";
 import { validationResult } from "express-validator";
 import { MysqlError } from "mysql";
 import { errorHandler } from "../helpers/errorMessageHandler";
-import { lookup } from "dns";
-import { hostname } from "os";
-import ipLocation from "iplocation";
 
 export const sendMessage = (req: Request, res: Response) => {
   try {

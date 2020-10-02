@@ -6,7 +6,8 @@ import {
   getUserDetails,
   changeEmail,
   changePassword,
-  changeUserFirstAndLastNames
+  changeUserFirstAndLastNames,
+  checkIfEmailExists,
 } from "../controllers/user";
 import { check } from "express-validator";
 import { userById, requireSignIn, isAuthenticated } from "../middlewares/user";
@@ -19,20 +20,20 @@ router.post(
     check("firstName", "First name is required").notEmpty(),
     check("firstName", "First name must be 2-100 characters").isLength({
       min: 2,
-      max: 100
+      max: 100,
     }),
     check("lastName", "Last name is required").notEmpty(),
     check("lastName", "Last name must be 2-100 characters").isLength({
       min: 2,
-      max: 100
+      max: 100,
     }),
     check("email", "Email is required").notEmpty(),
     check("email", "Please enter a valid email").isEmail(),
     check("email", "Email can be at max 150 characters").isLength({ max: 150 }),
     check("password", "Password is required").notEmpty(),
     check("password", "Password must be at least 8 characters").isLength({
-      min: 8
-    })
+      min: 8,
+    }),
   ],
   signup
 );
@@ -42,7 +43,7 @@ router.post(
   [
     check("email", "Email is required").notEmpty(),
     check("email", "Please enter a valid email").isEmail(),
-    check("password", "Password is required").notEmpty()
+    check("password", "Password is required").notEmpty(),
   ],
   signin
 );
@@ -56,7 +57,7 @@ router.put(
     check("city", "City is required").notEmpty(),
     check("address", "Address is required").notEmpty(),
     check("phone", "Phone is required").notEmpty(),
-    check("zipcode", "Zipcode is required").notEmpty()
+    check("zipcode", "Zipcode is required").notEmpty(),
   ],
   updateDetails
 );
@@ -69,13 +70,13 @@ router.put(
     check("firstName", "First name is required").notEmpty(),
     check("firstName", "First name must be 2-100 characters").isLength({
       min: 2,
-      max: 100
+      max: 100,
     }),
     check("lastName", "Last name is required").notEmpty(),
     check("lastName", "Last name must be 2-100 characters").isLength({
       min: 2,
-      max: 100
-    })
+      max: 100,
+    }),
   ],
   changeUserFirstAndLastNames
 );
@@ -87,7 +88,7 @@ router.put(
   [
     check("email", "Email is required").notEmpty(),
     check("email", "Please enter a valid email").isEmail(),
-    check("email", "Email can be at max 150 characters").isLength({ max: 150 })
+    check("email", "Email can be at max 150 characters").isLength({ max: 150 }),
   ],
   changeEmail
 );
@@ -99,8 +100,8 @@ router.put(
   [
     check("password", "Password is required").notEmpty(),
     check("password", "Password must be at least 8 characters").isLength({
-      min: 8
-    })
+      min: 8,
+    }),
   ],
   changePassword
 );
@@ -110,6 +111,15 @@ router.get(
   requireSignIn,
   isAuthenticated,
   getUserDetails
+);
+
+router.post(
+  "/email_exists",
+  [
+    check("email", "Email is required").notEmpty(),
+    check("email", "Please enter a valid email").isEmail(),
+  ],
+  checkIfEmailExists
 );
 
 router.param("userId", userById);

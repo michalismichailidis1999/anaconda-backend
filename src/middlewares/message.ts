@@ -18,7 +18,7 @@ export const messageById = (
         return res.status(404).json({ error: "Message does not exist" });
       }
 
-      req.message = result;
+      req.message = result[0];
 
       next();
     });

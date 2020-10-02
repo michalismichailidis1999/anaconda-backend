@@ -50,6 +50,7 @@ interface Message {
   last_name: string;
   email: string;
   message: string;
+  checked: number;
   created_at: string;
 }
 

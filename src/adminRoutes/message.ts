@@ -10,6 +10,8 @@ import {
   getMessages,
   getMessage,
   getTotalMessagesNumber,
+  updateMessage,
+  deleteMessage,
 } from "../adminControllers/message";
 import { messageById } from "../middlewares/message";
 import { check } from "express-validator";
@@ -17,7 +19,7 @@ import { check } from "express-validator";
 const router = Router();
 
 router.post(
-  "/admin/message/respond_to_client",
+  "/admin/message/respond_to_client/:userId",
   requireSignIn,
   isAuthenticated,
   isAdmin,
@@ -30,7 +32,7 @@ router.post(
 );
 
 router.get(
-  "/admin/message",
+  "/admin/messages/:userId",
   requireSignIn,
   isAuthenticated,
   isAdmin,
@@ -38,7 +40,7 @@ router.get(
 );
 
 router.get(
-  "/admin/message/:messageId",
+  "/admin/message/:messageId/:userId",
   requireSignIn,
   isAuthenticated,
   isAdmin,
@@ -51,6 +53,26 @@ router.get(
   isAuthenticated,
   isAdmin,
   getTotalMessagesNumber
+);
+
+router.put(
+  "/admin/message/:messageId/:userId",
+  requireSignIn,
+  isAuthenticated,
+  isAdmin,
+  [
+    check("checked", "Checked is required").notEmpty(),
+    check("checked", "Checked must be true or false").isBoolean(),
+  ],
+  updateMessage
+);
+
+router.delete(
+  "/admin/message/:messageId/:userId",
+  requireSignIn,
+  isAuthenticated,
+  isAdmin,
+  deleteMessage
 );
 
 router.param("messageId", messageById);

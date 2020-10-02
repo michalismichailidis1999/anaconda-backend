@@ -10,6 +10,19 @@ import { errorHandler } from "../helpers/errorMessageHandler";
 
 config();
 
+const Verifier = require("email-verifier");
+
+const emailVerifierApiKey = process.env.EMAIL_VERIFIER_API_KEY || "";
+
+const verifier = new Verifier(emailVerifierApiKey, {
+  checkCatchAll: false,
+  checkDisposable: true,
+  checkFree: false,
+  validateDNS: true,
+  validateSMTP: true,
+  retries: 2,
+});
+
 export const signup = async (req: Request, res: Response) => {
   try {
     const errors = validationResult(req);
@@ -60,9 +73,9 @@ export const signup = async (req: Request, res: Response) => {
                 id: userId,
                 first_name: firstName,
                 last_name: lastName,
-                email
+                email,
               },
-              token
+              token,
             });
           });
         });
@@ -115,9 +128,9 @@ export const signin = (req: Request, res: Response) => {
             id: user.id,
             first_name: user.first_name,
             last_name: user.last_name,
-            email: user.email
+            email: user.email,
           },
-          token
+          token,
         });
       });
     });
@@ -196,7 +209,7 @@ export const changeUserFirstAndLastNames = (req: Request, res: Response) => {
       if (err) throw err;
 
       res.json({
-        message: "User first name and last name updated successfully"
+        message: "User first name and last name updated successfully",
       });
     });
   } catch (err) {
@@ -272,6 +285,37 @@ export const changePassword = (req: Request, res: Response) => {
 
         res.json({ message: "Password updated successfully" });
       });
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const checkIfEmailExists = (req: Request, res: Response) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: errorHandler(errors.array()[0]) });
+    }
+
+    const { email } = req.body;
+
+    verifier.verify(email, (err: Error, data: any) => {
+      if (err) throw err;
+
+      let emailIsValid =
+        data.disposableCheck &&
+        data.disposableCheck === "false" &&
+        data.smtpCheck &&
+        data.smtpCheck !== "false" &&
+        data.dnsCheck &&
+        data.dnsCheck !== "false"
+          ? true
+          : false;
+
+      res.json(emailIsValid);
     });
   } catch (err) {
     console.log(err);
