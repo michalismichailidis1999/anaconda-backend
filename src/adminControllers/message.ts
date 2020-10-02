@@ -14,6 +14,8 @@ const sgApiKey = process.env.SENDGRID_API_KEY
 
 sgMail.setApiKey(sgApiKey);
 
+const adminEmail = process.env.ADMIN_EMAIL ? process.env.ADMIN_EMAIL : "";
+
 export const respondToClient = (req: Request, res: Response) => {
   try {
     const errors = validationResult(req);
@@ -34,10 +36,10 @@ export const respondToClient = (req: Request, res: Response) => {
         },
       ],
       from: {
-        email: "mixalismixailidis857@gmail.com",
+        email: adminEmail,
         name: "Anakonta",
       },
-      replyTo: { email: "mixalismixailidis857@gmail.com", name: "Anakonta" },
+      replyTo: { email: adminEmail, name: "Anakonta" },
       templateId: "d-0f425330dd9f417f8b6bb54f897887d8",
     };
 

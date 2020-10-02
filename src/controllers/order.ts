@@ -26,6 +26,9 @@ const sgApiKey = process.env.SENDGRID_API_KEY
 
 sgMail.setApiKey(sgApiKey);
 
+const adminEmail = process.env.ADMIN_EMAIL ? process.env.ADMIN_EMAIL : "";
+const adminEmail2 = process.env.ADMIN_EMAIL_2 ? process.env.ADMIN_EMAIL_2 : "";
+
 export const create = (req: Request, res: Response) => {
   try {
     const errors = validationResult(req);
@@ -44,7 +47,7 @@ export const create = (req: Request, res: Response) => {
       paymentMethod,
       isPaid,
       customerName,
-      extraPrice
+      extraPrice,
     } = req.body;
 
     let query = "";
@@ -147,33 +150,33 @@ export const notifyBothAdminAndClientAboutOrder = (
       products,
       userDetails,
       extraPrice,
-      customerName
+      customerName,
     } = req.body;
 
     const dynamicDataToClient = {
       orderId,
       totalPrice,
       extraPrice,
-      products
+      products,
     };
 
     if (email) {
       const emailToClient = {
         personalizations: [
           {
-            to: [{ email: "michalismichailidis1999@gmail.com" }],
-            dynamicTemplateData: dynamicDataToClient
-          }
+            to: [{ email }],
+            dynamicTemplateData: dynamicDataToClient,
+          },
         ],
         from: {
-          email: "mixalismixailidis857@gmail.com",
-          name: "Anakonta"
+          email: adminEmail,
+          name: "Anakonta",
         },
-        replyTo: { email: "mixalismixailidis857@gmail.com", name: "Anakonta" },
-        templateId: "d-e2ddea85cb9a47ee852a87e5dedfdbe2"
+        replyTo: { email: adminEmail, name: "Anakonta" },
+        templateId: "d-e2ddea85cb9a47ee852a87e5dedfdbe2",
       };
 
-      sgMail.send(emailToClient).catch(err => {
+      sgMail.send(emailToClient).catch((err) => {
         console.log("Message could not sent to client", err);
       });
     }
@@ -183,30 +186,30 @@ export const notifyBothAdminAndClientAboutOrder = (
       totalPrice,
       extraPrice,
       userDetails,
-      customerName
+      customerName,
     };
 
     const emailToAdmin = {
       personalizations: [
         {
-          to: [{ email: "mixalismixailidis857@gmail.com" }],
-          dynamicTemplateData: dynamicDataToAdmin
-        }
+          to: [{ email: adminEmail }],
+          dynamicTemplateData: dynamicDataToAdmin,
+        },
       ],
       from: {
-        email: "michalismichailidis1999@gmail.com",
-        name: "Anakonta"
+        email: adminEmail2,
+        name: "Anakonta",
       },
-      replyTo: { email: "michalismichailidis1999@gmail.com", name: "Anakonta" },
-      templateId: "d-ae7413fc5c9e463fa1e33e2720abd9fa"
+      replyTo: { email: adminEmail2, name: "Anakonta" },
+      templateId: "d-ae7413fc5c9e463fa1e33e2720abd9fa",
     };
 
-    sgMail.send(emailToAdmin).catch(err => {
+    sgMail.send(emailToAdmin).catch((err) => {
       console.log("Message could be not sent to admin", err);
     });
 
     res.status(200).json({
-      message: "Notifications have been send to both admin and client"
+      message: "Notifications have been send to both admin and client",
     });
   } catch (err) {
     console.log(err);
@@ -237,7 +240,7 @@ export const getOrder = (req: Request, res: Response) => {
           total_price: req.order.total_price,
           id: req.order.id,
           payment_method: req.order.paymentMethod,
-          paid: req.order.paid
+          paid: req.order.paid,
         };
 
         res.json({ deliveryDetails, products, paymentDetails });
