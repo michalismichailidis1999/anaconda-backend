@@ -5,7 +5,7 @@ config();
 
 let user = process.env.DB_USER || "";
 let host = process.env.DB_HOST || "";
-let port = parseInt(process.env.DB_USER || "0");
+let port = parseInt(process.env.DB_PORT || "0");
 let password = process.env.DB_PASSWORD || "";
 let database = process.env.DB_NAME || "";
 
@@ -14,7 +14,7 @@ const db = mysql.createConnection({
   host,
   port,
   password,
-  database
+  database,
 });
 
 export default db;
