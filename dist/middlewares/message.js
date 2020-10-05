@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.messageById = void 0;
-var db_1 = __importDefault(require("../config/db"));
-exports.messageById = function (req, res, next, id) {
+const db_1 = __importDefault(require("../config/db"));
+exports.messageById = (req, res, next, id) => {
     try {
-        var query = "SELECT * FROM messages WHERE id=" + id;
-        db_1.default.query(query, function (err, result) {
+        let query = `SELECT * FROM messages WHERE id=${id}`;
+        db_1.default.query(query, (err, result) => {
             if (err)
                 throw err;
             if (result.length === 0) {

@@ -4,15 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.commentById = exports.productById = exports.checkForAllFields = void 0;
-var formidable_1 = require("formidable");
-var local_storage_1 = require("local-storage");
-var db_1 = __importDefault(require("../config/db"));
-exports.checkForAllFields = function (req, res, next) {
+const formidable_1 = require("formidable");
+const local_storage_1 = require("local-storage");
+const db_1 = __importDefault(require("../config/db"));
+exports.checkForAllFields = (req, res, next) => {
     try {
-        var form = new formidable_1.IncomingForm();
+        let form = new formidable_1.IncomingForm();
         form.keepExtensions = true;
-        var updateProduct_1 = req.query.update === "true" ? true : false;
-        form.parse(req, function (err, fields, files) {
+        let updateProduct = req.query.update === "true" ? true : false;
+        form.parse(req, (err, fields, files) => {
             if (err) {
                 return res.status(400).json({ error: "Image could not be uploaded" });
             }
@@ -25,10 +25,10 @@ exports.checkForAllFields = function (req, res, next) {
                 !fields.code) {
                 return res.status(400).json({ error: "Please fill in all fields" });
             }
-            if (!files.image && !updateProduct_1) {
+            if (!files.image && !updateProduct) {
                 return res.status(400).json({ error: "Please fill in all fields" });
             }
-            var product = {
+            const product = {
                 category_id: "",
                 name: "",
                 price: 0,
@@ -50,7 +50,7 @@ exports.checkForAllFields = function (req, res, next) {
             product.description = fields.description + "";
             product.weight = parseFloat(fields.weight + "");
             product.code = fields.code + "";
-            if (!updateProduct_1) {
+            if (!updateProduct) {
                 product.image = files.image.name;
             }
             else {
@@ -70,10 +70,10 @@ exports.checkForAllFields = function (req, res, next) {
         res.status(500).json({ error: err.message });
     }
 };
-exports.productById = function (req, res, next, id) {
+exports.productById = (req, res, next, id) => {
     try {
-        var query = "SELECT * FROM products WHERE id='" + id + "'";
-        db_1.default.query(query, function (err, result) {
+        let query = `SELECT * FROM products WHERE id='${id}'`;
+        db_1.default.query(query, (err, result) => {
             if (err)
                 throw err;
             if (result.length === 0) {
@@ -88,10 +88,10 @@ exports.productById = function (req, res, next, id) {
         res.status(500).json({ error: err.message });
     }
 };
-exports.commentById = function (req, res, next, id) {
+exports.commentById = (req, res, next, id) => {
     try {
-        var query = "SELECT * FROM product_comments WHERE id=" + req.params.commentId;
-        db_1.default.query(query, function (err, result) {
+        let query = `SELECT * FROM product_comments WHERE id=${req.params.commentId}`;
+        db_1.default.query(query, (err, result) => {
             if (err)
                 throw err;
             if (result.length === 0) {

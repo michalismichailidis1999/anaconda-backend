@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var order_1 = require("../controllers/order");
-var user_1 = require("../middlewares/user");
-var express_validator_1 = require("express-validator");
-var order_2 = require("../middlewares/order");
-var router = express_1.Router();
+const express_1 = require("express");
+const order_1 = require("../controllers/order");
+const user_1 = require("../middlewares/user");
+const express_validator_1 = require("express-validator");
+const order_2 = require("../middlewares/order");
+const router = express_1.Router();
 router.post("/order/create", [
     express_validator_1.check("orderId", "Order ID is required").notEmpty(),
     express_validator_1.check("totalPrice", "Total price is required").notEmpty(),

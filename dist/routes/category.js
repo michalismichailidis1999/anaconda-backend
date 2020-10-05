@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var category_1 = require("../controllers/category");
-var category_2 = require("../middlewares/category");
-var router = express_1.Router();
+const express_1 = require("express");
+const category_1 = require("../controllers/category");
+const category_2 = require("../middlewares/category");
+const router = express_1.Router();
 router.get("/categories", category_1.getCategories);
 router.get("/category/:categoryId", category_1.getCategory);
 router.param("categoryId", category_2.categoryById);

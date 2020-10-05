@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCategory = exports.getCategories = void 0;
-var db_1 = __importDefault(require("../config/db"));
-exports.getCategories = function (req, res) {
+const db_1 = __importDefault(require("../config/db"));
+exports.getCategories = (req, res) => {
     try {
-        var query = "SELECT id, name FROM categories";
-        db_1.default.query(query, function (err, result) {
+        let query = "SELECT id, name FROM categories";
+        db_1.default.query(query, (err, result) => {
             if (err)
                 throw err;
             res.status(200).json(result);
@@ -19,7 +19,7 @@ exports.getCategories = function (req, res) {
         res.status(500).json({ error: err.message });
     }
 };
-exports.getCategory = function (req, res) {
+exports.getCategory = (req, res) => {
     try {
         res.status(200).json(req.category);
     }

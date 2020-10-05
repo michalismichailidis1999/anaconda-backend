@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var user_1 = require("../controllers/user");
-var express_validator_1 = require("express-validator");
-var user_2 = require("../middlewares/user");
-var router = express_1.Router();
+const express_1 = require("express");
+const user_1 = require("../controllers/user");
+const express_validator_1 = require("express-validator");
+const user_2 = require("../middlewares/user");
+const router = express_1.Router();
 router.post("/user/signup", [
     express_validator_1.check("firstName", "First name is required").notEmpty(),
     express_validator_1.check("firstName", "First name must be 2-100 characters").isLength({

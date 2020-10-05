@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var category_1 = require("../adminControllers/category");
-var user_1 = require("../middlewares/user");
-var express_validator_1 = require("express-validator");
-var category_2 = require("../middlewares/category");
-var router = express_1.Router();
+const express_1 = require("express");
+const category_1 = require("../adminControllers/category");
+const user_1 = require("../middlewares/user");
+const express_validator_1 = require("express-validator");
+const category_2 = require("../middlewares/category");
+const router = express_1.Router();
 router.delete("/admin/category/:categoryId/:userId", user_1.requireSignIn, user_1.isAuthenticated, user_1.isAdmin, category_1.remove);
 router.post("/admin/category/:userId/create", user_1.requireSignIn, user_1.isAuthenticated, user_1.isAdmin, [express_validator_1.check("name", "Category name is required").notEmpty()], category_1.create);
 router.put("/admin/category/:categoryId/:userId/update", user_1.requireSignIn, user_1.isAuthenticated, user_1.isAdmin, [express_validator_1.check("name", "Category name is required").notEmpty()], category_1.update);

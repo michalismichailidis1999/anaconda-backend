@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var message_1 = require("../controllers/message");
-var express_validator_1 = require("express-validator");
-var router = express_1.Router();
+const express_1 = require("express");
+const message_1 = require("../controllers/message");
+const express_validator_1 = require("express-validator");
+const router = express_1.Router();
 router.post("/message/send_message", [
     express_validator_1.check("firstName", "Please enter your first name").notEmpty(),
     express_validator_1.check("lastName", "Please enter your last name").notEmpty(),

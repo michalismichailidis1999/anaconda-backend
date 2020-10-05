@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var order_1 = require("../adminControllers/order");
-var user_1 = require("../middlewares/user");
-var order_2 = require("../middlewares/order");
-var express_validator_1 = require("express-validator");
-var router = express_1.Router();
+const express_1 = require("express");
+const order_1 = require("../adminControllers/order");
+const user_1 = require("../middlewares/user");
+const order_2 = require("../middlewares/order");
+const express_validator_1 = require("express-validator");
+const router = express_1.Router();
 router.get("/admin/orders_total_count/:userId", user_1.requireSignIn, user_1.isAuthenticated, user_1.isAdmin, order_1.getTotalOrderNumber);
 router.get("/admin/order/total_profit/:userId", user_1.requireSignIn, user_1.isAuthenticated, user_1.isAdmin, order_1.getTotalProfit);
 router.get("/admin/order/avg_monthly_profit/:userId", user_1.requireSignIn, user_1.isAuthenticated, user_1.isAdmin, order_1.getAverageMonthlyProfit);

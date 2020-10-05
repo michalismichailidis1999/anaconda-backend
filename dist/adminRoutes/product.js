@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var product_1 = require("../adminControllers/product");
-var product_2 = require("../middlewares/product");
-var user_1 = require("../middlewares/user");
-var router = express_1.Router();
+const express_1 = require("express");
+const product_1 = require("../adminControllers/product");
+const product_2 = require("../middlewares/product");
+const user_1 = require("../middlewares/user");
+const router = express_1.Router();
 router.post("/admin/product/:userId/create", user_1.requireSignIn, user_1.isAuthenticated, user_1.isAdmin, product_2.checkForAllFields, product_1.create);
 router.post("/admin/product/:userId/upload_image", user_1.requireSignIn, user_1.isAuthenticated, user_1.isAdmin, product_1.uploadImage);
 router.put("/admin/product/:userId/:productId/update", user_1.requireSignIn, user_1.isAuthenticated, user_1.isAdmin, product_2.checkForAllFields, product_1.update);

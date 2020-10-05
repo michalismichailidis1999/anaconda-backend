@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isAdmin = exports.isAuthenticated = exports.requireSignIn = exports.userById = void 0;
-var db_1 = __importDefault(require("../config/db"));
-var jsonwebtoken_1 = require("jsonwebtoken");
-exports.userById = function (req, res, next, id) {
+const db_1 = __importDefault(require("../config/db"));
+const jsonwebtoken_1 = require("jsonwebtoken");
+exports.userById = (req, res, next, id) => {
     try {
-        var query = "SELECT * FROM users WHERE id='" + id + "'";
-        db_1.default.query(query, function (err, result) {
+        let query = `SELECT * FROM users WHERE id='${id}'`;
+        db_1.default.query(query, (err, result) => {
             if (err)
                 throw err;
             if (result.length === 0) {
@@ -26,15 +26,15 @@ exports.userById = function (req, res, next, id) {
         res.status(500).json({ error: err.message });
     }
 };
-exports.requireSignIn = function (req, res, next) {
+exports.requireSignIn = (req, res, next) => {
     var _a;
     try {
-        var auth = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
+        let auth = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
         if (!auth) {
             return res.status(401).json({ error: "User not authorized" });
         }
-        var secret = process.env.JSON_SECRET || "secret";
-        jsonwebtoken_1.verify(auth, secret, function (err, decoded) {
+        let secret = process.env.JSON_SECRET || "secret";
+        jsonwebtoken_1.verify(auth, secret, (err, decoded) => {
             if (err)
                 throw err;
             if (typeof decoded === "string") {
@@ -48,7 +48,7 @@ exports.requireSignIn = function (req, res, next) {
         res.status(500).json({ error: err.message });
     }
 };
-exports.isAuthenticated = function (req, res, next) {
+exports.isAuthenticated = (req, res, next) => {
     try {
         if (req.user.id !== req.auth) {
             return res
@@ -62,7 +62,7 @@ exports.isAuthenticated = function (req, res, next) {
         res.status(500).json({ error: err.message });
     }
 };
-exports.isAdmin = function (req, res, next) {
+exports.isAdmin = (req, res, next) => {
     try {
         if (req.user.role !== 1) {
             return res

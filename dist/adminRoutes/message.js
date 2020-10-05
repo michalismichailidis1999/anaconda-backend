@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var user_1 = require("../middlewares/user");
-var message_1 = require("../adminControllers/message");
-var message_2 = require("../middlewares/message");
-var express_validator_1 = require("express-validator");
-var router = express_1.Router();
+const express_1 = require("express");
+const user_1 = require("../middlewares/user");
+const message_1 = require("../adminControllers/message");
+const message_2 = require("../middlewares/message");
+const express_validator_1 = require("express-validator");
+const router = express_1.Router();
 router.post("/admin/message/respond_to_client/:userId", user_1.requireSignIn, user_1.isAuthenticated, user_1.isAdmin, [
     express_validator_1.check("reply", "Your reply to the client is required").notEmpty(),
     express_validator_1.check("email", "Client's email is required").notEmpty(),
