@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { IncomingForm } from "formidable";
-import { categoryById } from "./category";
 import { set } from "local-storage";
 import db from "../config/db";
 import { MysqlError } from "mysql";
