@@ -85,6 +85,8 @@ import { config } from "dotenv";
 import cors from "cors";
 import { MysqlError } from "mysql";
 import helmet from "helmet";
+import session from "express-session";
+import { v4 } from "uuid";
 
 // Connect to database
 import db from "./config/db";
@@ -120,7 +122,20 @@ const app: Application = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+
+const sessionSecret = v4();
+
+app.use(
+  session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24, // Equals 1 day
+    },
+  })
+);
 
 // Helmet
 app.use(helmet());
