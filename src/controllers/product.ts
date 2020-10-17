@@ -2,9 +2,6 @@ import { Request, Response } from "express";
 import db from "../config/db";
 import { MysqlError } from "mysql";
 import { v4 } from "uuid";
-import { get, remove as removeFromStorage } from "local-storage";
-import multer, { diskStorage } from "multer";
-import { join } from "path";
 import { validationResult } from "express-validator";
 import { errorHandler } from "../helpers/errorMessageHandler";
 
