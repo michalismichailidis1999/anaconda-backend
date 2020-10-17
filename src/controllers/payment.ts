@@ -64,7 +64,9 @@ export const getClientSecret = async (req: Request, res: Response) => {
         .json({ error: "Something went wrong with the order amount" });
     }
 
-    const paymentAmount = amount * 100;
+    let paymentAmount = (amount * 100);
+    paymentAmount = parseInt(paymentAmount + ""); 
+
 
     const { id } = await stripe.paymentIntents.create({
       amount: paymentAmount,
