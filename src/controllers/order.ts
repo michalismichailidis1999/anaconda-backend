@@ -239,8 +239,9 @@ export const getOrder = (req: Request, res: Response) => {
           status: req.order.status,
           total_price: req.order.total_price,
           id: req.order.id,
-          payment_method: req.order.paymentMethod,
+          payment_method: req.order.payment_method,
           paid: req.order.paid,
+          extra_price: req.order.extra_price,
         };
 
         res.json({ deliveryDetails, products, paymentDetails });
@@ -251,3 +252,43 @@ export const getOrder = (req: Request, res: Response) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const searchOrder = (req:Request, res: Response) => {
+  try {
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+      return res.status(400).json({error: errorHandler(errors.array()[0])});
+    }
+
+    const {id} = req.body;
+
+    let query = `SELECT status, total_price, extra_price, payment_method FROM orders WHERE id='${id}'`;
+
+    db.query(query, (err:MysqlError, result) => {
+      if(err) throw err;
+
+      if(result.length === 0){
+        return res.json(false);
+      }
+
+      let orderDetails = result[0];
+
+      query = `
+        SELECT op.image, op.name, op.quantity, op.price, c.name as category
+        FROM order_products as op INNER JOIN categories as c ON op.category_id=c.id WHERE op.order_id='${id}'
+      `;
+
+      db.query(query, (err:MysqlError, result) => {
+        if(err) throw err;
+
+        let orderProducts = result;
+
+        res.json({orderDetails, orderProducts});
+      })
+    })
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+}

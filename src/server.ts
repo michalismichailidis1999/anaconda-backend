@@ -60,9 +60,10 @@ interface Order {
   total_price: number;
   created_at: string;
   customer: string;
-  paymentMethod: string;
+  payment_method: string;
   paid: number;
   checked: number;
+  extra_price: number;
 }
 
 declare global {

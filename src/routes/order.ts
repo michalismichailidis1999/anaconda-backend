@@ -4,7 +4,8 @@ import {
   getOrders,
   notifyBothAdminAndClientAboutOrder,
   getTotalPagesOfClientOrders,
-  getOrder
+  getOrder,
+  searchOrder
 } from "../controllers/order";
 import { userById, requireSignIn, isAuthenticated } from "../middlewares/user";
 import { check } from "express-validator";
@@ -50,6 +51,8 @@ router.get(
 );
 
 router.get("/order/:orderId/:userId", requireSignIn, isAuthenticated, getOrder);
+
+router.post("/check_my_order", [check("id", "Order id is required")], searchOrder);
 
 router.param("userId", userById);
 router.param("orderId", orderById);
