@@ -65,8 +65,12 @@ export const getClientSecret = async (req: Request, res: Response) => {
     }
 
     let paymentAmount = (amount * 100);
-    paymentAmount = parseInt(paymentAmount + ""); 
+    let strAmount = (paymentAmount + "");
+    let strAmountSplit = strAmount.split(".");
 
+    if(strAmountSplit.length > 1 && strAmountSplit[1][0] === "9"){
+      paymentAmount = Math.ceil(paymentAmount);
+    }
 
     const { id } = await stripe.paymentIntents.create({
       amount: paymentAmount,
