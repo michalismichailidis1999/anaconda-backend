@@ -36,7 +36,8 @@ router.post(
     check("products", "Products are required").notEmpty(),
     check("userDetails", "User details are required").notEmpty(),
     check("extraPrice", "Extra price is required").notEmpty(),
-    check("customerName", "Customer name is required").notEmpty()
+    check("customerName", "Customer name is required").notEmpty(),
+    check("paymentMethod", "Payment method is required").notEmpty()
   ],
   notifyBothAdminAndClientAboutOrder
 );

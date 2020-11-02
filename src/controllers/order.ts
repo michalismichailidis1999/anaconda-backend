@@ -151,13 +151,17 @@ export const notifyBothAdminAndClientAboutOrder = (
       userDetails,
       extraPrice,
       customerName,
+      paymentMethod
     } = req.body;
+
+    const paidOnDelivery = paymentMethod === "card" ? false : true;
 
     const dynamicDataToClient = {
       orderId,
-      totalPrice,
+      totalPrice: paidOnDelivery ? totalPrice - 2 : totalPrice,
       extraPrice,
       products,
+      paidOnDelivery
     };
 
     if (email) {
@@ -183,10 +187,11 @@ export const notifyBothAdminAndClientAboutOrder = (
 
     const dynamicDataToAdmin = {
       orderId,
-      totalPrice,
+      totalPrice: paidOnDelivery ? totalPrice - 2 : totalPrice,
       extraPrice,
       userDetails,
       customerName,
+      paidOnDelivery
     };
 
     const emailToAdmin = {
