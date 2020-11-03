@@ -67,7 +67,7 @@ export const getProduct = (req: Request, res: Response) => {
         if (err) throw err;
 
         query = `
-        SELECT pc.id, pc.user_id, pc.comment, CONCAT(us.first_name, " ", us.last_name) AS user, pr.stars as rate FROM product_comments pc
+        SELECT pc.id, pc.user_id, pc.comment, CONCAT(us.first_name, ' ', us.last_name) AS user, pr.stars as rate FROM product_comments pc
         INNER JOIN users us ON pc.user_id=us.id
         LEFT JOIN product_rates pr ON pc.product_id=pr.product_id AND pc.user_id=pr.user_id
         WHERE pc.product_id='${req.product.id}'
