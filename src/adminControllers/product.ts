@@ -4,6 +4,7 @@ import { MysqlError } from "mysql";
 import { v4 } from "uuid";
 import { validationResult } from "express-validator";
 import { errorHandler } from "../helpers/errorMessageHandler";
+import {upload} from '../libs/multer';
 
 export const create = (req: Request, res: Response) => {
   try {
@@ -129,7 +130,24 @@ export const update = (req: Request, res: Response) => {
 
 export const uploadImage = (req: Request, res: Response) => {
   try {
-    
+    upload(req, res, (err:any) => {
+      if(err) throw err;
+
+      if(!req.file.originalname){
+        return res.status(400).json({error: "Something went wrong!"});
+      }
+
+      let image_path = "https://anakontaskydra.fra1.digitaloceanspaces.com/uploaded_from_computer/" + req.file.originalname;
+
+      let query = `INSERT INTO product_images(image_path) VALUES('${image_path}')`;
+
+      db.query(query, (err:MysqlError) => {
+        if(err) throw err;
+
+        res.json({message: "Image uploaded successfully"});
+      })
+      
+    })
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.message });

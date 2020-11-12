@@ -9,7 +9,7 @@ config();
 
 const secretKey = process.env.SECRET_KEY || "";
 
-const stripe = new Stripe(secretKey, { apiVersion: "2020-03-02" });
+const stripe = new Stripe(secretKey, { apiVersion: "2020-08-27" });
 
 export const cardPayment = async (req: Request, res: Response) => {
   try {
