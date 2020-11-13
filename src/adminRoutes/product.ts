@@ -47,7 +47,7 @@ router.post(
 );
 
 router.post(
-  "/admin/product/:userId/upload_image",
+  "/admin/image/:userId/upload_image",
   requireSignIn,
   isAuthenticated,
   isAdmin,

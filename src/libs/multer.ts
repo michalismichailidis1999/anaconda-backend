@@ -26,12 +26,12 @@ export const upload = multer({
     bucket,
     acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
-    metadata: (req, file, cb) => {
+    metadata: (req: Express.Request, file: Express.Multer.File, cb:(error: any, metadata?: any) => void) => {
       cb(null, {
         fieldName: file.fieldname,
       })
     },
-    key: (req, file, cb) => {
+    key: (req: Express.Request, file: Express.Multer.File, cb: (error: any, key?: string | undefined) => void) => {
       cb(null, folderToUpload + file.originalname);
     }
   })
