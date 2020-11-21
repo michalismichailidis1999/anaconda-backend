@@ -139,14 +139,23 @@ export const uploadImage = (req: Request, res: Response) => {
 
       let image_path = "https://anakontaskydra.fra1.digitaloceanspaces.com/uploaded_from_computer/" + req.file.originalname;
 
-      let query = `INSERT INTO product_images(image_path) VALUES('${image_path}')`;
+      let query = `SELECT * FROM product_images WHERE id > 0 AND image_path='${image_path}'`;
 
-      db.query(query, (err:MysqlError) => {
+      db.query(query, (err:MysqlError, result) => {
         if(err) throw err;
 
-        res.json({message: "Image uploaded successfully"});
-      })
-      
+        if(result.length > 0){
+          return res.status(400).json({error: "Image already in database"});
+        }
+
+        query = `INSERT INTO product_images(image_path) VALUES('${image_path}')`;
+
+        db.query(query, (err:MysqlError) => {
+          if(err) throw err;
+
+          res.json({message: "Image uploaded successfully"});
+        })
+      });
     })
   } catch (err) {
     console.log(err);
