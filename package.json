@@ -23,7 +23,7 @@
     "@types/mysql": "^2.15.15",
     "@types/stripe": "^7.13.25",
     "@types/uuid": "^8.3.0",
-    "aws-sdk": "^2.789.0",
+    "aws-sdk": "^2.798.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

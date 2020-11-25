@@ -9,7 +9,7 @@ const folderToUpload = "uploaded_from_computer/";
 const spaceEndpoint = process.env.DO_SPACE_ENDPOINT || "";
 const accessKeyId = process.env.DO_ACCESS_KEY_ID || "";
 const secretAccessKey = process.env.DO_SECRET_ACCESS_KEY || "";
-const bucket = process.env.DO_BUCKET_NAME || "";
+const bucket = "anakonta-skydra";
 
 // Configure client for use with Spaces
 const spacesEndpoint = new AWS.Endpoint(spaceEndpoint);

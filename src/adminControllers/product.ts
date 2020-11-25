@@ -137,7 +137,7 @@ export const uploadImage = (req: Request, res: Response) => {
         return res.status(400).json({error: "Something went wrong!"});
       }
 
-      let image_path = "https://anakontaskydra.fra1.digitaloceanspaces.com/uploaded_from_computer/" + req.file.originalname;
+      let image_path = "https://anakonta-skydra.fra1.digitaloceanspaces.com/uploaded_from_computer/" + req.file.originalname;
 
       let query = `SELECT * FROM product_images WHERE id > 0 AND image_path='${image_path}'`;
 
