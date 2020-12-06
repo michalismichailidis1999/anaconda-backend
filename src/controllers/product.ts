@@ -45,7 +45,32 @@ export const getProducts = (req: Request, res: Response) => {
     db.query(query, (err: MysqlError, result) => {
       if (err) throw err;
 
-      res.json(result);
+      let products = result;
+
+      query = `SELECT * FROM products WHERE on_sale=0 ORDER BY ${filter} ${sortBy}`;
+  
+      if (category !== "all") {
+        query = `SELECT * FROM products WHERE category_id='${category}' AND on_sale=0 
+        ORDER BY ${filter} ${sortBy}`;
+      }
+  
+      if (sale) {
+        if (category !== "all") {
+          query = `SELECT * FROM products WHERE category_id='${category}' AND on_sale=1 
+          ORDER BY created_at ${sortBy}`;
+        } else {
+          query = `SELECT * FROM products WHERE on_sale=1 
+          ORDER BY created_at ${sortBy}`;
+        }
+      }
+
+      db.query(query, (err, result) => {
+        if(err) throw err;
+
+        let pages = Math.ceil(result.length / 20);
+
+        res.json({products, pages});
+      })
     });
   } catch (err) {
     console.log(err);
